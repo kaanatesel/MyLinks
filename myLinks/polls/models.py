@@ -1,12 +1,13 @@
 from django.db import models
-
+from django import forms
 # Create your models here.
 class User(models.Model):
     nickname = models.CharField(max_length=250,unique=True)
     firstname = models.CharField(max_length=250)
     lastname = models.CharField(max_length=250)
+    password = models.CharField(max_length=50,default="")
     email = models.EmailField()
-    description = models.TextField()
+    description = models.TextField(default="")
 
     def __str__(self):
         return self.nickname
