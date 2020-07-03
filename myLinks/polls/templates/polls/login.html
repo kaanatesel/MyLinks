@@ -27,107 +27,67 @@
                 One of three columns
             </div>
             <div class="col-sm">
+                {% block body%}
                 <div class="row">
                     <div class="col">
                         <h2>
-                            Create an Account
+                            Create an Account {{name}}
                         </h2>
                     </div>
                 </div>
-                <form>
-                    <div class="row">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form-row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="First name">
+                            <label for="{{form.firstname.id_for_label }}">First Name</label> {{form.firstname}}
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Last name">
+                            <label for="{{form.lastname.id_for_label }}">Last Name</label> {{form.lastname}}
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="form-row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Nickname & Link name">
+                            <label for="{{form.nickname.id_for_label }}">Nickname</label> {{form.nickname}}
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="form-row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Email">
+                            <label for="{{form.email.id_for_label }}">Email</label> {{form.email}}
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Password Again">
-                        </div>
-                    </div>
-                    <div class="row mt-3">
+                    <div class="form-row">
                         <div class="col">
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                                    <label class="form-check-label" for="gridCheck">
-                                    I agree with terms of use.
-                                  </label>
-                                </div>
-                            </div>
+                            <label for="{{form.password.id_for_label }}">Password</label> {{form.password}}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-dark">Sign in</button>
+                    <div class="form-row mt-2">
+                        <div class="col">
+                            <label class="form-check-label" for="{{form.aggrewithterm.id_for_label }}">Aggree with terms of use</label> {{form.aggrewithterm}}
+                        </div>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="col">
+                            <button type="submit" class="btn btn-dark mb-2">Submit</button>
+                        </div>
+                    </div>
                 </form>
+                {% endblock %}
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="page-footer font-small special-color-dark pt-4 bg-dark fixed-bottom">
 
         <!-- Footer Elements -->
         <div class=" container ">
-
-            <!-- Social buttons -->
-            <ul class="list-unstyled list-inline text-center ">
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-fb mx-1 ">
-                        <i class="fab fa-facebook-f "> </i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-tw mx-1 ">
-                        <i class="fab fa-twitter "> </i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-gplus mx-1 ">
-                        <i class="fab fa-google-plus-g "> </i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-li mx-1 ">
-                        <i class="fab fa-linkedin-in "> </i>
-                    </a>
-                </li>
-                <li class="list-inline-item ">
-                    <a class="btn-floating btn-dribbble mx-1 ">
-                        <i class="fab fa-dribbble "> </i>
-                    </a>
-                </li>
-            </ul>
-            <!-- Social buttons -->
-
         </div>
         <!-- Footer Elements -->
-
-        <!-- Copyright -->
         <div class="footer-copyright text-center py-3 ">© 2020 Copyright:
             <a href="https://mdbootstrap.com/ "> MDBootstrap.com</a>
         </div>
-        <!-- Copyright -->
-
     </footer>
-    <!-- Footer -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>

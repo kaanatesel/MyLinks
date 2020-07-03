@@ -1,9 +1,9 @@
 from django.urls import path
 
 from . import views
-from .Views import LoginPage
 
+app_name = 'polls'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('login/', LoginPage.login , name='index'),
+    path('login/', views.LoginView.as_view() , name='login'),
 ]
