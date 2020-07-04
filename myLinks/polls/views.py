@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import TemplateView
 from passlib.hash import pbkdf2_sha256
+from django.urls import reverse
 # Create your views here.
 from .models import User 
 from .form import RegisterForm, LoginForm
@@ -58,7 +59,7 @@ class RegisterView(TemplateView):
 
                 user_pass = user.password
                 if pbkdf2_sha256.verify(ent_password, user_pass):
-                    return HttpResponseRedirect('')
+                    return HttpResponseRedirect(reverse('polls:userdetail', args=(user.id,)))
                 else:
                     context = {
                          'form' :  form,
@@ -67,4 +68,14 @@ class RegisterView(TemplateView):
                          "err_msg" : "Your password was incorrect."
                     }               
                     return render(request, self.template_name,context)
-        
+
+class UserDetailView(TemplateView): 
+    template_name = 'polls/userdetail.html'
+
+    def get(self,request,user_id):
+        user = User.objects.get(id=user_id)
+        context = {
+            'app_name' : "my_Link",
+            'username' : user.firstname
+        }
+        return render(request, self.template_name,context)
