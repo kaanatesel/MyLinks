@@ -1,35 +1,56 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import TemplateView
+from passlib.hash import pbkdf2_sha256
 # Create your views here.
 from .models import User 
-from .form import RegisterForm
+from .form import RegisterForm, LoginForm
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-class LoginView(TemplateView):
+class RegisterView(TemplateView):
     template_name = 'polls/login.html'
 
     def get(self,request):
-        print("get") 
         form = RegisterForm()
-        return render(request, self.template_name,{'form':form})
+        login_form = LoginForm()
+        context = {
+            'form' :  form,
+            'app_name' : "my_Link",
+            "login_form" : login_form
+        }
+        return render(request, self.template_name,context)
 
     def post(self,request): 
-        print("post")
         form =  RegisterForm(request.POST)
-        if form.is_valid():
-            first = form.cleaned_data['firstname']
-            last = form.cleaned_data['lastname']
-            nickname = form.cleaned_data['nickname']
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            terms = form.cleaned_data['aggrewithterm']
-            print(first)
-            print(last)
-            user = User(nickname=nickname,firstname=first,lastname=last,password=password,email=email)
-            user.save()
-            print("git db bak")
-            return HttpResponseRedirect('')
+        login_form = LoginForm(request.POST)
+        if request.method=='POST' and 'register' in request.POST:
+            print("register")
+            if form.is_valid():
+                print("register")
+                first = form.cleaned_data['firstname']
+                last = form.cleaned_data['lastname']
+                nickname = form.cleaned_data['nickname']
+                password = form.cleaned_data['password']
+                password_hashed = pbkdf2_sha256.encrypt(password,rounds=1200, salt_size=10)
+                print(password_hashed)
+                email = form.cleaned_data['email']
+                terms = form.cleaned_data['aggrewithterm']
+                user = User(nickname=nickname,firstname=first,lastname=last,password=password_hashed,email=email)
+                user.save()
+                return HttpResponseRedirect('')
+
+        if request.method=='POST' and 'login' in request.POST:
+            if login_form.is_valid():
+                nickname = login_form.cleaned_data['nickname']
+                ent_password = login_form.cleaned_data['password']
+
+                user = User.objects.get(nickname=nickname)
+                user_pass = user.password
+                print(pbkdf2_sha256.verify(ent_password, user_pass))
+                if pbkdf2_sha256.verify(ent_password, user_pass):
+                    return HttpResponseRedirect('')
+                else:
+                    print("duır ")
         

@@ -15,9 +15,15 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand">{{ app_name }}</a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group mb-2">
+                <label for="{{login_form.nickname.id_for_label }}" class="sr-only">Nickname</label> {{ login_form.nickname }}
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="{{login_form.password.id_for_label }}" class="sr-only">Password</label> {{ login_form.password }}
+            </div>
+            <button type="submit" name="login" class="btn btn-primary mb-2">Login</button>
         </form>
     </nav>
 
@@ -31,7 +37,7 @@
                 <div class="row">
                     <div class="col">
                         <h2>
-                            Create an Account {{name}}
+                            Create an Account
                         </h2>
                     </div>
                 </div>
@@ -69,7 +75,7 @@
                     </div>
                     <div class="form-row mt-3">
                         <div class="col">
-                            <button type="submit" class="btn btn-dark mb-2">Submit</button>
+                            <button type="submit" name="register" class="btn btn-dark mb-2">Submit</button>
                         </div>
                     </div>
                 </form>

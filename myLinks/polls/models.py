@@ -5,7 +5,7 @@ class User(models.Model):
     nickname = models.CharField(max_length=250,unique=True)
     firstname = models.CharField(max_length=250)
     lastname = models.CharField(max_length=250)
-    password = models.CharField(max_length=50,default="")
+    password = models.CharField(max_length=250,default="")
     email = models.EmailField()
     description = models.TextField(default="")
 
