@@ -45,12 +45,26 @@ class RegisterView(TemplateView):
             if login_form.is_valid():
                 nickname = login_form.cleaned_data['nickname']
                 ent_password = login_form.cleaned_data['password']
+                try:
+                    user = User.objects.get(nickname=nickname)
+                except(KeyError, User.DoesNotExist):
+                    context = {
+                         'form' :  form,
+                         'app_name' : "my_Link",
+                         "login_form" : login_form,
+                         "err_msg" : "The username you entered doesn't belong to an account."
+                    }               
+                    return render(request, self.template_name,context)
 
-                user = User.objects.get(nickname=nickname)
                 user_pass = user.password
-                print(pbkdf2_sha256.verify(ent_password, user_pass))
                 if pbkdf2_sha256.verify(ent_password, user_pass):
                     return HttpResponseRedirect('')
                 else:
-                    print("duır ")
+                    context = {
+                         'form' :  form,
+                         'app_name' : "my_Link",
+                         "login_form" : login_form,
+                         "err_msg" : "Your password was incorrect."
+                    }               
+                    return render(request, self.template_name,context)
         

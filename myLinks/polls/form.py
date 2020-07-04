@@ -11,5 +11,5 @@ class RegisterForm(forms.Form):
     aggrewithterm = forms.BooleanField(error_messages={'required': 'Aggree with terms of use'})
 
 class LoginForm(forms.Form):
-    nickname = forms.CharField(label="Nickname Adress",error_messages={'required': 'Please enter an email address'}, widget=forms.TextInput(attrs={'class': 'form-control form-control-sm'}))
-    password = forms.CharField(label="Password",widget=forms.PasswordInput(attrs={'class': 'form-control form-control-sm'}))
+    nickname = forms.CharField(label="Nickname Adress",error_messages={'required': 'Please enter an email address'}, widget=forms.TextInput(attrs={'class': 'form-control form-control-sm','placeholder':'Nickname'}))
+    password = forms.CharField(label="Password",widget=forms.PasswordInput(attrs={'class': 'form-control form-control-sm','placeholder':'Password'}))
