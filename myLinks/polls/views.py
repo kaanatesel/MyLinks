@@ -27,15 +27,12 @@ class RegisterView(TemplateView):
         form =  RegisterForm(request.POST)
         login_form = LoginForm(request.POST)
         if request.method=='POST' and 'register' in request.POST:
-            print("register")
             if form.is_valid():
-                print("register")
                 first = form.cleaned_data['firstname']
                 last = form.cleaned_data['lastname']
                 nickname = form.cleaned_data['nickname']
                 password = form.cleaned_data['password']
                 password_hashed = pbkdf2_sha256.encrypt(password,rounds=1200, salt_size=10)
-                print(password_hashed)
                 email = form.cleaned_data['email']
                 terms = form.cleaned_data['aggrewithterm']
                 user = User(nickname=nickname,firstname=first,lastname=last,password=password_hashed,email=email)
@@ -59,7 +56,11 @@ class RegisterView(TemplateView):
 
                 user_pass = user.password
                 if pbkdf2_sha256.verify(ent_password, user_pass):
-                    return HttpResponseRedirect(reverse('polls:userdetail', args=(user.id,)))
+                    response = HttpResponseRedirect(reverse('polls:userdetail', args=(user.id,)))
+                    auth = "auth"
+                    auth_hased = pbkdf2_sha256.encrypt(auth,rounds=1200, salt_size=10)
+                    response.set_cookie("auth",auth_hased)
+                    return response
                 else:
                     context = {
                          'form' :  form,
@@ -74,8 +75,21 @@ class UserDetailView(TemplateView):
 
     def get(self,request,user_id):
         user = User.objects.get(id=user_id)
+
+        auth = request.COOKIES.get('auth')
         context = {
             'app_name' : "my_Link",
-            'username' : user.firstname
+            'usernickname' : user.nickname,
+            'userfirstname' : user.firstname,
+            'userlastname' : user.lastname,
+            'auth' : auth
         }
-        return render(request, self.template_name,context)
+        if auth == None:
+            return HttpResponseRedirect('/polls/register')
+        elif pbkdf2_sha256.verify("auth", auth):
+            return render(request, self.template_name,context)
+        else:
+            return HttpResponseRedirect('polls/register')
+
+
+
