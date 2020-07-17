@@ -30,15 +30,50 @@
                         <p>( {{ usernickname }} )</p>
                     </div>
                     <div class="row ">
-                        <form class="form-inline">
-                            <label class="sr-only" for="inlineFormInputName2">Name</label>
-                            <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
-                            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control form-control-sm" id="inlineFormInputGroupUsername2" placeholder="Username">
+                        <div class="col">
+                            <h4 style="float: left;">
+                                First Name : {{ userfirstname }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>
+                                Last Name : {{ userlastname }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changenamemodal">
+                                Change
+                            </button>
+                            <div class="modal fade" id="changenamemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Change Name-Surname</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="">
+                                                {% csrf_token %} {{changeNameForm}}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" name="change_name" class="btn btn-dark">Save Changes</button>
+                                                </div>
+                                                {% if form.errors %}
+                                                <p style="margin: 0; color: red;">{{ err_msg }}</p>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-dark mb-2">Change</button>
-                        </form>
+                        </div>
                     </div>
                     <div class="row ">
                         <h3 class="mr-3" style="text-decoration: underline;">
@@ -46,14 +81,37 @@
                         </h3>
                     </div>
                     <div class="row ">
-                        <form>
-                            <div class="row">
-                                <div class="col-12">
-                                    <textarea rows="5" class="form-control form-control-lg" aria-label="With textarea"></textarea>
+                        <div class="col-sm-8 col-md-12">
+                            <p>{{ description }}</p>
+                        </div>
+                        <div class="col-sm-4 col-md-12">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-dark mb-3" data-toggle="modal" data-target="#changedesciription">
+                                    Edit    
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="changedesciription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabeadsl" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabeadsl">Change Description</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            {% csrf_token %} {{desform}}
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" name="change_des" class="btn btn-dark">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-dark mb-2 mt-3">Change</button>
-                        </form>
+                        </div>
                     </div>
                     <div class="row ">
                         <button type="button" class="btn btn-outline-danger btn-block" data-toggle="modal" data-target="#exampleModal">
@@ -70,11 +128,13 @@
                                     </button>
                                     </div>
                                     <div class="modal-body">
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <form action="" method="POST">
+                                            {% csrf_token %} {{ linkForm }}
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" name="add_link" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

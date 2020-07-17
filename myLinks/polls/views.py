@@ -70,26 +70,7 @@ class RegisterView(TemplateView):
                     }               
                     return render(request, self.template_name,context)
 
-class UserDetailView(TemplateView): 
-    template_name = 'polls/userdetail.html'
 
-    def get(self,request,user_id):
-        user = User.objects.get(id=user_id)
-
-        auth = request.COOKIES.get('auth')
-        context = {
-            'app_name' : "my_Link",
-            'usernickname' : user.nickname,
-            'userfirstname' : user.firstname,
-            'userlastname' : user.lastname,
-            'auth' : auth
-        }
-        if auth == None:
-            return HttpResponseRedirect('/polls/register')
-        elif pbkdf2_sha256.verify("auth", auth):
-            return render(request, self.template_name,context)
-        else:
-            return HttpResponseRedirect('polls/register')
 
 
 
