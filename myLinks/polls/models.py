@@ -14,13 +14,11 @@ class User(models.Model):
 
 class Link(models.Model):
     name = models.CharField(max_length=250)
+    url = models.CharField(max_length=400,default="#")
     click_count = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
     color_code = models.CharField(max_length=50,default="#ffffff")
-    user_id = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

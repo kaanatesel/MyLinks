@@ -70,7 +70,7 @@ class UserDetailView(TemplateView):
                     user.description = newdes
                     user.save()
                     return HttpResponseRedirect(self.request.path_info)
-                except expression as identifier:
+                except (KeyError, User.DoesNotExist):
                    context = {
                        'app_name' : "my_Link",
                        'usernickname' : user.nickname,
@@ -85,10 +85,25 @@ class UserDetailView(TemplateView):
 
         if request.POST and 'add_link' in request.POST:
             if linkForm.is_valid():
+                print("link is valid")
                 linkname = linkForm.cleaned_data['linkname']
                 linkurl = linkForm.cleaned_data['url']
                 linkcolor = linkForm.cleaned_data['color']
-                
-                newLink = Link(name=linkname,color_code=linkcolor,user_id=user_id)
-
+                try:
+                   user = User.objects.get(id=user_id)
+                except (KeyError, User.DoesNotExist):
+                   context = {
+                       'app_name' : "my_Link",
+                       'usernickname' : user.nickname,
+                       'userfirstname' : user.firstname,
+                       'userlastname' : user.lastname,
+                       'changeNameForm' : changeNameForm,
+                       'desform' : UserDesForm,
+                       'err_msg' : "Some thing went wrong try again.",
+                        'linkForm' : linkForm
+                   }
+                   return render(request, self.template_name,context)
+                newLink = Link(name=linkname,url=linkurl,color_code=linkcolor,user_id=user)
+                newLink.save()
+                return HttpResponseRedirect(self.request.path_info)
 
