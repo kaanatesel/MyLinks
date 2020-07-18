@@ -13,6 +13,7 @@ class UserDetailView(TemplateView):
 
     def get(self,request,user_id):
         user = User.objects.get(id=user_id)
+        links = Link.objects.filter(user_id=user_id)
         userdes = user.description
         auth = request.COOKIES.get('auth')
         changeNameForm = ChanageUserInforForm()
@@ -26,7 +27,8 @@ class UserDetailView(TemplateView):
             'changeNameForm' : changeNameForm,
             'description' : userdes,
             'desform' : UserDesForm,
-            'linkForm' : linkForm
+            'linkForm' : linkForm,
+            'links' : links
         }
         if auth == None:
             return HttpResponseRedirect('/polls/register')

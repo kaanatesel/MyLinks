@@ -11,6 +11,17 @@
 
     <title>Hello, world!</title>
 </head>
+<style>
+    .a_none {
+        color: black;
+        text-decoration: none;
+    }
+    
+    .a_none:hover {
+        color: #8c8c8c;
+        text-decoration: none;
+    }
+</style>
 
 <body>
     <nav class="navbar navbar-dark bg-dark">
@@ -45,7 +56,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changenamemodal">
+                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#changenamemodal">
                                 Change
                             </button>
                             <div class="modal fade" id="changenamemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -142,7 +153,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm " style="background-color: red; "></div>
+            <div class="col-sm">
+                <h3>Total Click : 23</h3>
+
+                <ul class="list-group">
+                    {% for link in links %}
+                    <li style=" background-color: {{ link.color_code }};" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a class="a_none" href="{{ link.url }}"> {{ link.name }} </a>
+                        <span class="badge badge-dark badge-pill"> {{ link.click_count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 
