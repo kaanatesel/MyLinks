@@ -1,2 +1,2 @@
 # MyLinks
-A web server to keep and share your links. 
+It is a web page that user can login and store his social media links to share.
